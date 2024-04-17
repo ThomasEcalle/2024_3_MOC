@@ -1,8 +1,21 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:moc_2024_3/home/home_tab.dart';
+import 'package:moc_2024_3/home/settings_tab.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _currentIndex = 0;
+
+  final _tabs = const [
+    HomeTab(),
+    SettingsTab(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +28,14 @@ class Home extends StatelessWidget {
           Icon(Icons.settings),
         ],
       ),
-      body: Container(
-        color: Colors.blue,
-        child: Center(
-          child: Text(
-            'Coucou',
-            style: Theme.of(context).textTheme.displayLarge,
-          ),
-        ),
-      ),
+      body: _tabs[_currentIndex],
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          print('Coucou');
-        },
+        child: const Icon(Icons.add),
+        onPressed: () => _changeTab(0),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onBottomBarTap,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -43,5 +48,16 @@ class Home extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onBottomBarTap(int index) {
+    _changeTab(index);
+    print('New index tapped: $_currentIndex');
+  }
+
+  void _changeTab(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }

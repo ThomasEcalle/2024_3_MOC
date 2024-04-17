@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moc_2024_3/home.dart';
+import 'package:moc_2024_3/home/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const Home(),
+      home: Home(),
     );
   }
 }

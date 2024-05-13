@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moc_2024_3/home/home.dart';
 import 'package:moc_2024_3/stateful_exercises/exercise_one.dart';
+import 'package:moc_2024_3/stateful_exercises/exercise_three.dart';
 import 'package:moc_2024_3/stateful_exercises/exercise_two.dart';
 
 void main() {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: ExerciseTwo(),
+      home: ExerciseThree(),
     );
   }
 }

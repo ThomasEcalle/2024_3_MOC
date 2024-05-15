@@ -108,7 +108,6 @@ class LayoutsScreen extends StatelessWidget {
                           color: Colors.red,
                         ),
                       ),
-
                     ],
                   ),
                 ),

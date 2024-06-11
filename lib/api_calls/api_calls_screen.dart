@@ -20,28 +20,66 @@ class _ApiCallsScreenState extends State<ApiCallsScreen> {
   @override
   void initState() {
     super.initState();
-    _init();
+    //_init();
   }
 
-  void _init() async {
-    try {
-      final products = await _getAllProducts();
-      setState(() {
-        _loading = false;
-        _products = products;
-      });
-    } catch (error) {
-      setState(() {
-        _loading = false;
-        _error = error.toString();
-      });
-    }
-  }
+  // void _init() async {
+  //   try {
+  //     final products = await _getAllProducts();
+  //     setState(() {
+  //       _loading = false;
+  //       _products = products;
+  //     });
+  //   } catch (error) {
+  //     setState(() {
+  //       _loading = false;
+  //       _error = error.toString();
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildContent(),
+      body: FutureBuilder<List<Product>>(
+        future: _getAllProducts(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              final hasError = snapshot.hasError;
+              if (hasError) {
+                return Center(
+                  child: Text('Oups, une erreur est survenue: ${snapshot.error}'),
+                );
+              }
+
+              final products = snapshot.data;
+              if (products == null) {
+                return const Center(
+                  child: Text('Oups, la liste est nulle'),
+                );
+              }
+
+              if (products.isEmpty) {
+                return const Center(
+                  child: Text('Oups, aucun produit'),
+                );
+              }
+
+              return ListView.separated(
+                itemCount: products.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 10),
+                itemBuilder: (context, index) {
+                  return ProductListItem(product: products[index]);
+                },
+              );
+          }
+        },
+      ),
     );
   }
 

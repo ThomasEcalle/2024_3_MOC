@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moc_2024_3/api_calls/api_calls_screen.dart';
 import 'package:moc_2024_3/home/home.dart';
 import 'package:moc_2024_3/layouts/layouts_screen.dart';
 import 'package:moc_2024_3/lists_and_scrollables/lists_and_scrollables.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: ListsAndScrollables(),
+      home: ApiCallsScreen(),
     );
   }
 }

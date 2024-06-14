@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:moc_2024_3/api_calls/api_calls_screen.dart';
-import 'package:moc_2024_3/home/home.dart';
-import 'package:moc_2024_3/layouts/layouts_screen.dart';
-import 'package:moc_2024_3/lists_and_scrollables/lists_and_scrollables.dart';
+import 'package:moc_2024_3/api_calls/product.dart';
 import 'package:moc_2024_3/navigation/navigation_screen.dart';
-import 'package:moc_2024_3/stateful_exercises/exercise_one.dart';
-import 'package:moc_2024_3/stateful_exercises/exercise_three.dart';
-import 'package:moc_2024_3/stateful_exercises/exercise_two.dart';
+import 'package:moc_2024_3/navigation/screen_a.dart';
+import 'package:moc_2024_3/navigation/screen_b.dart';
+import 'package:moc_2024_3/navigation/screen_c.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,7 +28,25 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const NavigationScreen(),
+      routes: {
+        '/': (context) => const ApiCallsScreen(),
+        '/screenB': (context) => const ScreenB(),
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/screenC':
+            final arguments = settings.arguments;
+            if (arguments is Product) {
+              return MaterialPageRoute(
+                builder: (context) => ScreenC(product: arguments),
+              );
+            }
+            break;
+          default:
+            return MaterialPageRoute(builder: (context) => const SizedBox());
+        }
+      },
+      //home: const NavigationScreen(),
     );
   }
 }

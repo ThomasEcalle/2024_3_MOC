@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moc_2024_3/navigation/screen_a.dart';
 
 class NavigationScreen extends StatelessWidget {
   const NavigationScreen({super.key});
@@ -28,9 +29,17 @@ class NavigationScreen extends StatelessWidget {
     );
   }
 
-  void _goToScreenA(BuildContext context) {}
+  void _goToScreenA(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const ScreenA()),
+    );
+  }
 
-  void _goToScreenB(BuildContext context) {}
+  void _goToScreenB(BuildContext context) {
+    Navigator.of(context).pushNamed('/screenB');
+  }
 
-  void _goToScreenC(BuildContext context) {}
+  void _goToScreenC(BuildContext context) {
+    Navigator.of(context).pushNamed('/screenC', arguments: 42);
+  }
 }

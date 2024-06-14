@@ -5,10 +5,26 @@ class ScreenA extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Screen A'),
+      ),
       body: Center(
-        child: Text('Coucou screen A'),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('Coucou screen A'),
+            ElevatedButton(
+              onPressed: () => _onBack(context),
+              child: const Text('Go back'),
+            )
+          ],
+        ),
       ),
     );
+  }
+
+  void _onBack(BuildContext context) {
+    Navigator.of(context).pop();
   }
 }

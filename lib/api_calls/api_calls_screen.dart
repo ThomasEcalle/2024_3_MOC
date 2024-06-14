@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:moc_2024_3/api_calls/product.dart';
 import 'package:moc_2024_3/api_calls/product_list_item.dart';
+import 'package:moc_2024_3/navigation/screen_c.dart';
 
 class ApiCallsScreen extends StatefulWidget {
   const ApiCallsScreen({super.key});
@@ -16,11 +17,15 @@ class _ApiCallsScreenState extends State<ApiCallsScreen> {
   bool _loading = true;
   List<Product> _products = [];
   String? _error;
+  Future<List<Product>>? productsFuture;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    productsFuture = _getAllProducts();
     //_init();
+    _scrollController.addListener(() {});
   }
 
   // void _init() async {
@@ -42,7 +47,7 @@ class _ApiCallsScreenState extends State<ApiCallsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<Product>>(
-        future: _getAllProducts(),
+        future: productsFuture,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
@@ -71,10 +76,18 @@ class _ApiCallsScreenState extends State<ApiCallsScreen> {
               }
 
               return ListView.separated(
-                itemCount: products.length,
+                controller: _scrollController,
+                itemCount: products.length + 1,
                 separatorBuilder: (context, index) => const SizedBox(height: 10),
                 itemBuilder: (context, index) {
-                  return ProductListItem(product: products[index]);
+                  // if (index == products.length) {
+                  //   return MonLoadMore();
+                  // }
+
+                  return ProductListItem(
+                    product: products[index],
+                    onTap: () => _onProductTap(products[index]),
+                  );
                 },
               );
           }
@@ -103,12 +116,21 @@ class _ApiCallsScreenState extends State<ApiCallsScreen> {
     }
 
     return ListView.separated(
+      controller: _scrollController,
       itemCount: _products.length,
       separatorBuilder: (context, index) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
-        return ProductListItem(product: _products[index]);
+        return ProductListItem(
+          product: _products[index],
+          onTap: () => _onProductTap(_products[index]),
+        );
       },
     );
+  }
+
+  void _onProductTap(Product product) {
+    //Navigator.of(context).pushNamed('/screenC', arguments: product);
+    ScreenC.navigateTo(context, product);
   }
 
   Future<List<Product>> _getAllProducts() async {
